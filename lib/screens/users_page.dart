@@ -61,6 +61,7 @@ class _UsersPageState extends State<UsersPage> {
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
                                         user["name"].toString(),
@@ -69,8 +70,48 @@ class _UsersPageState extends State<UsersPage> {
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
+
+                                      Row(
+                                        children: [
+                                          InkWell(
+                                              child: Container(
+                                                child: Icon(
+                                                  Icons.edit,
+                                                  color: Colors.greenAccent,
+                                                ),
+                                              ),
+                                              onTap: () async {
+                                                print("edit");
+                                              }),
+                                          Padding(
+                                            padding: const EdgeInsets.all(3.0),
+                                            child: InkWell(
+                                              child: Container(
+                                                child: Icon(
+                                                  Icons.delete_forever,
+                                                  color: Colors.red,
+                                                ),
+                                              ),
+                                              onTap: () async{
+                                                print("Delete");
+                                              },
+                                            ),
+                                          )
+                                        ],
+                                      )
                                     ],
-                                  )
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 8.0, top: 8.0),
+                                    child: Text(
+                                        "職業：${user["profession"] ?? 'N/A'}"),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 8.0, top: 8.0),
+                                    child: Text("Age：${user["age"] ?? 'N/A'}"),
+                                  ),
                                 ],
                               ),
                             ),
