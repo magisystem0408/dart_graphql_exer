@@ -9,8 +9,7 @@ class UsersPage extends StatefulWidget {
 }
 
 class _UsersPageState extends State<UsersPage> {
-
-  List users =[];
+  List users = [];
   String _query = """
     query{
       users{
@@ -28,57 +27,61 @@ class _UsersPageState extends State<UsersPage> {
       // データを取得する
       options: QueryOptions(document: gql(_query)),
       builder: (result, {fetchMore, refetch}) {
-
         // ロード中の時はここでLoading中になる
-        if (result.isLoading){
-          return CircularProgressIndicator(
-          );
+        if (result.isLoading) {
+          return CircularProgressIndicator();
         }
-        users=result.data["users"];
+        users = result.data["users"];
 
-        return ListView.builder(
-            itemCount: users.length,
-            itemBuilder: (context, index) {
-              final user =users[index];
+        return (users.isNotEmpty)
+            ? ListView.builder(
+                itemCount: users.length,
+                itemBuilder: (context, index) {
+                  final user = users[index];
 
-              return Stack(
-                children: [
-                  Container(
-                      margin: EdgeInsets.only(bottom: 23, left: 10, right: 10),
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(1),
-                          boxShadow: [
-                            BoxShadow(
-                                offset: Offset(0, 10),
-                                color: Colors.grey.shade300,
-                                blurRadius: 30)
-                          ]),
-                      padding: const EdgeInsets.all(20),
-                      child: InkWell(
-                        child: Container(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Row(
+                  return Stack(
+                    children: [
+                      Container(
+                          margin:
+                              EdgeInsets.only(bottom: 23, left: 10, right: 10),
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(1),
+                              boxShadow: [
+                                BoxShadow(
+                                    offset: Offset(0, 10),
+                                    color: Colors.grey.shade300,
+                                    blurRadius: 30)
+                              ]),
+                          padding: const EdgeInsets.all(20),
+                          child: InkWell(
+                            child: Container(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  Text(
-                                    user["name"].toString(),
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        user["name"].toString(),
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ],
+                                  )
                                 ],
-                              )
-                            ],
-                          ),
-                        ),
-                      ))
-                ],
-              );
-            });
+                              ),
+                            ),
+                          ))
+                    ],
+                  );
+                })
+            : Container(
+                child: Center(
+                child: Text("No Item found"),
+              ));
       },
     );
   }
